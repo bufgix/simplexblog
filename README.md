@@ -1,4 +1,4 @@
-## Personal [Blog](simplexblog.herokuapp.com/) written in Python
+## Personal [Blog](http://simplexblog.herokuapp.com/) written in Python
 
 if you want to create secret key:
 ```python
