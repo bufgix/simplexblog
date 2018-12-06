@@ -23,13 +23,13 @@ def create_post():
         db.session.commit()
         flash('Gönderi oluşturuldu', 'success')
         return redirect(url_for('main.home'))
-    return render_template('post_create.html', title='Yeni Gönderi', form=form)
+    return render_template('posts/post_create.html', title='Yeni Gönderi', form=form)
 
 @posts.route('/post/<int:post_id>')
 def detail_post(post_id):
     post = Post.query.get_or_404(post_id)
     post.content = Markup(markdown.markdown(post.content))
-    return render_template('post_detail.html', post=post, title=post.title)
+    return render_template('posts/post_detail.html', post=post, title=post.title)
 
 @posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
 @login_required
@@ -54,7 +54,7 @@ def update_post(post_id):
     form.title.data = post.title
     form.content.data = post.content
 
-    return render_template('post_update.html', post=post, form=form)
+    return render_template('posts/post_update.html', post=post, form=form)
 
 @posts.route('/post/<int:post_id>/delete')
 @login_required

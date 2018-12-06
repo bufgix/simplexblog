@@ -25,7 +25,7 @@ def register():
             login_user(user)
             flash("Başarıyla kayıt oldunuz", "success")
             return redirect(url_for('main.home'))
-    return render_template('register.html', form=form, title='Kayıt ol')
+    return render_template('users/register.html', form=form, title='Kayıt ol')
 
 @users.route('/login', methods=["GET", "POST"])
 def login():
@@ -39,7 +39,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         flash('Hatalı kullanıcı adı veya şifre', 'danger')
 
-    return render_template('login.html', form=form, title='Giriş')
+    return render_template('users/login.html', form=form, title='Giriş')
 
 
 @users.route('/account', methods=['GET', 'POST'])
@@ -64,7 +64,7 @@ def account():
         .order_by(Post.date_posted.desc())\
         .paginate(page=page, per_page=6)
     user_names = [name[0] for name in db.session.query(User.username).all()]
-    return  render_template('account.html', title=f' {current_user.username} profili', form=form, posts=user_posts, user_names=user_names)
+    return  render_template('users/account.html', title=f' {current_user.username} profili', form=form, posts=user_posts, user_names=user_names)
 
 @users.route('/user/<username>')
 def profile(username):
@@ -77,7 +77,7 @@ def profile(username):
 
 
 
-    return render_template('profile.html', posts=user_posts, user=user)
+    return render_template('users/profile.html', posts=user_posts, user=user)
 
 @users.route('/logout')
 def logout():
