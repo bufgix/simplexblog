@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <form  method="POST" action="" autocomplete="off">
+        {{ form.hidden_tag() }}
+        <fieldset class=form-group>
+            <legend calss="border-botton mb-4">Giriş Yap</legend>
+            <div class="form-group">
+                {{ form.username.label(class="form-control-group-label") }}
+                {{ form.username(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-control-group-label") }}
+                {{ form.password(class="form-control form-control-lg") }}
+            </div>
+        </fieldset>
+        <div class="form-check">
+            {{ form.remember(class="form-check-input") }}
+            {{ form.remember.label(class="form-check-label") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+        <small class="text-muted ml-2">
+            <a href="#">Şifremi unuttum</a>
+        </small>
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">Heabın yok mu?<a class="ml-2" href="{{ url_for('users.register') }}">Kayıt ol</a></small>
+    </div>
+{% endblock %}

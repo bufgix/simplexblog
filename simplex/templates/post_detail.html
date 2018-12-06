@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="card-content">
+            <div class="card-img">
+                <img src="{{url_for('static', filename='post_pics/' + post.img_file)}}" alt="">
+
+            </div>
+            <div class="card-desc">
+                <h3>{{ post.title }}</h3>
+                <div class="row card-content col-md-12" style="padding: 12px;margin-bottom: 5px;">
+                  <img style="width: 50px; height: 50px; border-radius:50%;" src="{{ url_for('static', filename='profile_pics/' + post.author.img_file) }}" alt="">
+                  <span style="margin-top: 10px;"><h6><a href="{{ url_for('users.profile', username=post.author.username) }}">{{ post.author.username }}</a></h6></span>
+                  {% if current_user == post.author %}
+                    <a style="height: 30%; margin: 5px;" class="btn btn-secondary btn-sm m-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Güncelle</a>
+                    <a style="height: 30%; margin: 5px; color: white;" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#confirmModal">Sil</a>
+                  {% endif %}
+                  <span style="margin-top: 5%;font-size: 12px;">{{ post.date_posted.strftime('%d-%m-%Y')}}</span>
+                </div>
+
+                {{ post.content }}
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmModalLabel">Sil?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Silmek istiyor musunuz?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            <a class="btn btn-danger"  href="{{ url_for('posts.delete_post', post_id=post.id) }}">Sil</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

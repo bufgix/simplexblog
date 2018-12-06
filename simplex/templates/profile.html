@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+					<img style="text-align: center; margin-left: 35%" src="{{ url_for('static', filename='profile_pics/' + user.img_file)}}" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						{{user.username}}
+					</div>
+					<div class="profile-usertitle-job">
+						{{user.motto}}
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+        {% if user.username == current_user.username %}
+				<div class="profile-userbuttons">
+					<button type="button" class="btn btn-success btn-sm"><a style="color: white; text-decoration: none;"href="{{ url_for('posts.create_post') }}">Gönderi oluştur</a></button>
+
+				</div>
+        {% endif %}
+
+				<!-- END MENU -->
+			</div>
+		</div>
+		<div class="col-md-9">
+            <!-- here -->
+            <section class="details-card">
+              <div class="container">
+                  <div class="row justify-content-center">
+                    {% if posts %}
+                      {% for post in posts.items %}
+                      <div class="col-md-4">
+                          <div class="card-content">
+                              <div class="card-img">
+                                  <img src="{{url_for('static', filename='post_pics/' + post.img_file)}}" alt="">
+                              </div>
+                              <div class="card-desc">
+                                  <h3><a href="{{ url_for('posts.detail_post', post_id=post.id) }}">{{ post.title if post.title|length < 15 else post.title[:15]+ '...' }}</a></h3>
+                                  <span style="margin-left: 40px; margin-top: 10px;"><h6>{{ post.author.username }} tarafından</h6></span>
+                                  <span class="text-muted"tyle="margin-top: 50px; font-size: 12px;">{{ post.date_posted.strftime('%d-%m-%Y') }}</span>
+                                  <a href="{{ url_for('posts.detail_post', post_id=post.id) }}" class="btn btn-primary">Devamı</a>
+                              </div>
+                          </div>
+                      </div>
+                      {% endfor %}
+                      {% else %}
+                        <p class="h3 text-center">Buralar fazla ıszız</p>
+                    {% endif %}
+                  </div>
+              </div>
+          </section>
+            {% if posts %}
+              {% for page_num in posts.iter_pages() %}
+                {% if page_num %}
+                  <a class="btn btn-outline-info mb-4" href="{{ url_for('users.profile', page=page_num, username=user.username) }}">{{ page_num }}</a>
+                {% else %}
+                  ...
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+<form  method="POST" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <fieldset class=form-group>
+        <legend calss="border-botton mb-4">Gönderiyi güncelle</legend>
+        <div class="form-group">
+            {{ form.title.label(class="form-control-group-label") }}
+            {{ form.title(class="form-control form-control-lg", value=post.title) }}
+        </div>
+        <div class="form-group">
+            {{ form.content.label(class="form-control-group-label") }}
+            {{ form.content(class="form-control rounded-0", rows=10, style="font-size: 14px;") }}
+        </div>
+        <div class="form-group">
+            {{ form.img_file.label(class="form-control-group-label") }}
+            {{ form.img_file(class="form-control form-control-lg") }}
+            {% if form.img_file.errors  %}
+              {% for err in form.img_file.errors %}
+                <span class="text-danger">{{ err }}</span>
+              {% endfor %}
+            {% endif %}
+        </div>
+    </fieldset>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+    </div>
+
+</form>
+{% endblock %}

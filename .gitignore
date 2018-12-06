@@ -1,0 +1,9 @@
+env
+simplex/__pycache__
+simplex/main/__pycache__
+simplex/users/__pycache__
+simplex/posts/__pycache__
+simplex/static/profile_pics/*
+!simplex/static/profile_pics/default.jpg
+simplex/static/post_pics/*
+!simplex/static/post_pics/default.jpg

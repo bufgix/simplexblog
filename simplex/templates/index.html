@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <section class="details-card">
+      <div class="container">
+          <div class="row">
+            {% if posts %}
+              {% for post in posts.items %}
+              <div class="col-md-4">
+                  <div class="card-content">
+                      <div class="card-img">
+                          <img src="{{url_for('static', filename='post_pics/' + post.img_file)}}" alt="">
+                      </div>
+                      <div class="card-desc">
+                          <h3><a href="{{ url_for('posts.detail_post', post_id=post.id) }}">{{ post.title if post.title|length < 20 else post.title[:20]+ '...' }}</a></h3>
+                          <span style="margin-left: 40px; margin-top: 10px;"><h6><a href="{{ url_for('users.profile', username=post.author.username) }}">{{ post.author.username }} tarafından</h6></span>
+                          <span class="text-muted"tyle="margin-top: 50px; font-size: 12px;">{{ post.date_posted.strftime('%d-%m-%Y') }}</span>
+
+                          <a href="{{ url_for('posts.detail_post', post_id=post.id) }}" class="btn btn-primary">Devamı</a>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+      </div>
+  </section>
+  {% for page_num in posts.iter_pages() %}
+    {% if page_num %}
+      <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+
+{% endblock %}
