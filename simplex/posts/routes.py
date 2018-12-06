@@ -28,7 +28,9 @@ def create_post():
 @posts.route('/post/<int:post_id>')
 def detail_post(post_id):
     post = Post.query.get_or_404(post_id)
-    post.content = Markup(markdown.markdown(post.content))
+    post.content = Markup(markdown.markdown(post.content,
+        output_format='html5',
+        extensions=['extra', 'smarty']))
     return render_template('posts/post_detail.html', post=post, title=post.title)
 
 @posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
@@ -63,7 +65,10 @@ def delete_post(post_id):
     if post.author != current_user:
         abort(403)
     if post.img_file != 'default.jpg':
-        os.remove(os.path.join(app.root_path, 'static', 'post_pics', post.img_file))
+        try:
+            os.remove(os.path.join(app.root_path, 'static', 'post_pics', post.img_file))
+        except FileNotFoundError:
+            pass
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('main.home'))
